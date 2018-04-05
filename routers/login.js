@@ -1,6 +1,11 @@
 const router = require('express').Router();
-const { login } = require('../controllers/login_controller') 
+const {signInFb} = require('../controllers/userController')
 
-router.post('/', login)
+router.get('/', (req,res) =>{
+  res.status(200).json({
+    message: "success"
+  })
+})
+router.post('/signinfb', signInFb)
 
 module.exports = router;

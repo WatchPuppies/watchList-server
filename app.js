@@ -4,6 +4,7 @@ const morgan = require('morgan')
 const dotenv = require('dotenv').config()
 const port = process.env.PORT || 3000
 const mongoose = require('mongoose');
+const cors = require('cors')
 
 const loginRoute = require('./routers/login.js');
 const homeRoute = require('./routers/home.js');
