@@ -1,0 +1,30 @@
+{
+  "name": "watchlist-server",
+  "version": "1.0.0",
+  "description": "Watch List",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/WatchPuppies/watchList-server.git"
+  },
+  "author": "Jovian Andrew, Fandi Barestu, Hari Permadi, Yohanes Sahrul",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/WatchPuppies/watchList-server/issues"
+  },
+  "homepage": "https://github.com/WatchPuppies/watchList-server#readme",
+  "dependencies": {
+    "cors": "^2.8.4",
+    "dotenv": "^5.0.1",
+    "express": "^4.16.3",
+    "fb": "^2.0.0",
+    "jsonwebtoken": "^8.2.0",
+    "mongoose": "^5.0.12"
+  },
+  "devDependencies": {
+    "morgan": "^1.9.0"
+  }
+}
