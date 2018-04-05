@@ -4,7 +4,7 @@
   "description": "Watch List",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "nodemon app.js"
   },
   "repository": {
     "type": "git",
@@ -17,6 +17,8 @@
   },
   "homepage": "https://github.com/WatchPuppies/watchList-server#readme",
   "dependencies": {
+    "axios": "^0.18.0",
+    "circular-json": "^0.5.1",
     "cors": "^2.8.4",
     "dotenv": "^5.0.1",
     "express": "^4.16.3",
