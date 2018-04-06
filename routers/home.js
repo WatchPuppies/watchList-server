@@ -1,6 +1,6 @@
 const router = require('express').Router();
-const { userData, addWatchlist, deleteWatchlist } = require('../controllers/home_controller')
+const { showWatchlist } = require('../controllers/home_controller')
 
-router.get('/', userData)
+router.get('/', showWatchlist)
 
 module.exports = router;
