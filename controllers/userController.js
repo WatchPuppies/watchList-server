@@ -5,9 +5,11 @@ const Watchlist = require('../models/Watchlist')
 const jwt = require('jsonwebtoken')
 const FB = require('fb')
 const secret = process.env.SECRET
+
 module.exports = {
   addMovie : function(req, res) {
     let movieId = req.body.movieId
+    let userData = req.body.userData
 
     axios.get(` https://api.themoviedb.org/3/movie/${movieId}?api_key=b22c760fa08932d04fe280373432a8c3`)
     .then(function(response) {
@@ -18,7 +20,7 @@ module.exports = {
       movie.genres.forEach(genre => {
         genrelist.push(genre.name)
       })
-      
+
       movie.genre = genrelist.join(', ')
       
       let newShow = new Show({
@@ -28,8 +30,14 @@ module.exports = {
         category: 'Movies',
         genre: movie.genre,
         rating: movie.vote_average,
-        description: movie.description,
+        description: movie.overview,
         duration: '-'
+      })
+
+      let newWatchlist = new Watchlist({
+        users: userData,
+        movies: newShow,
+        status: 'Belum ditonton'
       })
       
       newShow.save()
@@ -49,6 +57,22 @@ module.exports = {
       })
     })
     .catch(function(error) {
+      res.status(400).send(error.message)
+    })
+  },
+
+  deleteShow : function(req, res) {
+    let showId = req.body.showId
+    console.log('HEREEEEE', showId);
+    
+
+    Show.deleteOne({
+      _id: showId
+    })
+    .then(success => {
+      res.status(200).send(success)
+    })
+    .catch(error => {
       res.status(400).send(error.message)
     })
   },
