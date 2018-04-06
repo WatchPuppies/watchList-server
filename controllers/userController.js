@@ -1,7 +1,7 @@
 const User = require('../models/users')
 const jwt = require('jsonwebtoken')
 const FB = require('fb')
-
+const secret = process.env.SECRET
 module.exports = {
   signInFb : (req, res) => {
     FB.api('me', {fields:['id', 'name', 'email', 'picture'], access_token:req.headers.fbtoken},(response)=>{
@@ -23,7 +23,7 @@ module.exports = {
             }, (error, newUser)=>{
               console.log("new user==", newUser)
               if(!error){
-                let token = jwt.sign({id:newUser._id},'kitten')
+                let token = jwt.sign({id:newUser._id},secret)
                 res.status(201).json({
                   message: "login success, new user created!",
                   user: ({
@@ -43,7 +43,7 @@ module.exports = {
               }
             })
           }else{
-            let token = jwt.sign({id:dataUser._id},'kitten')
+            let token = jwt.sign({id:dataUser._id},secret)
             res.status(201).json({
               message: "login success, new user created!",
               user: ({
