@@ -4,7 +4,7 @@ const Show = require('../models/Show')
 const Watchlist = require('../models/Watchlist')
 const jwt = require('jsonwebtoken')
 const FB = require('fb')
-
+const secret = process.env.SECRET
 module.exports = {
   addMovie : function(req, res) {
     let movieId = req.body.movieId
@@ -73,7 +73,7 @@ module.exports = {
             }, (error, newUser)=>{
               console.log("new user==", newUser)
               if(!error){
-                let token = jwt.sign({id:newUser._id},'kitten')
+                let token = jwt.sign({id:newUser._id},secret)
                 res.status(201).json({
                   message: "login success, new user created!",
                   user: ({
@@ -93,7 +93,7 @@ module.exports = {
               }
             })
           }else{
-            let token = jwt.sign({id:dataUser._id},'kitten')
+            let token = jwt.sign({id:dataUser._id},secret)
             res.status(201).json({
               message: "login success, new user created!",
               user: ({
