@@ -52,6 +52,48 @@ module.exports = {
       res.status(400).send(error.message)
     })
   },
+  addAnime: function(req, res){
+      let animeId = req.body.animeId
+  
+      axios.create({
+        baseURL: "https://anilist.co/api",
+        headers: {'Authorization': `Bearer ${process.env.ANILIST_KEY}`}
+      }).get(`https://anilist.co/api/anime/${animeId}`)
+      .then(function(response) {
+        let anime = response.data
+        console.log(anime);
+        anime.genre = anime.genre.join(', ')
+        
+        let newShow = new Show({
+          animeId: anime.id,
+          title: anime.title_english,
+          poster: anime.image_url_lge,
+          category: 'Anime',
+          genre: anime.genre,
+          rating: anime.average_score,
+          description: anime.description,
+          duration: anime.duration
+        }) 
+        newShow.save()
+        .then(success => {
+          console.log(success);
+          
+          res.status(201).send({
+            message: 'Add data success',
+            data: success
+          })
+        })
+        .catch(error => {
+          res.status(500).send({
+            message: 'Add data failed',
+            detail: error.message
+          })
+        })
+      })
+      .catch(function(error) {
+        res.status(400).send(error.message)
+      })
+  },
 
   signInFb : (req, res) => {
     FB.api('me', {fields:['id', 'name', 'email', 'picture'], access_token:req.headers.fbtoken},(response)=>{
