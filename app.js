@@ -9,6 +9,8 @@ const cors = require('cors')
 const loginRoute = require('./routers/login.js');
 const homeRoute = require('./routers/home.js');
 const showsRoute = require('./routers/show.js');
+const userRoute = require('./routers/user.js');
+
 app.use(cors())
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
@@ -24,6 +26,7 @@ db.once('open', function() {
 app.use('/', loginRoute);
 app.use('/home', homeRoute);
 app.use('/show', showsRoute);
+app.use('/user', userRoute);
 
 app.listen(port, () => {
     console.log('Listening on port', port);

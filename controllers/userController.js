@@ -1,8 +1,58 @@
-const User = require('../models/users')
+const axios = require('axios')
+const User = require('../models/User')
+const Show = require('../models/Show')
+const Watchlist = require('../models/Watchlist')
 const jwt = require('jsonwebtoken')
 const FB = require('fb')
 const secret = process.env.SECRET
 module.exports = {
+  addMovie : function(req, res) {
+    let movieId = req.body.movieId
+
+    axios.get(` https://api.themoviedb.org/3/movie/${movieId}?api_key=b22c760fa08932d04fe280373432a8c3`)
+    .then(function(response) {
+      let movie = response.data
+      let genrelist = []
+
+      
+      movie.genres.forEach(genre => {
+        genrelist.push(genre.name)
+      })
+      
+      movie.genre = genrelist.join(', ')
+      
+      let newShow = new Show({
+        movieId: movie.id,
+        title: movie.title,
+        poster: movie.poster_path,
+        category: 'Movies',
+        genre: movie.genre,
+        rating: movie.vote_average,
+        description: movie.description,
+        duration: '-'
+      })
+      
+      newShow.save()
+      .then(success => {
+        console.log(success);
+        
+        res.status(201).send({
+          message: 'Add data success',
+          data: success
+        })
+      })
+      .catch(error => {
+        res.status(500).send({
+          message: 'Add data failed',
+          detail: error.message
+        })
+      })
+    })
+    .catch(function(error) {
+      res.status(400).send(error.message)
+    })
+  },
+
   signInFb : (req, res) => {
     FB.api('me', {fields:['id', 'name', 'email', 'picture'], access_token:req.headers.fbtoken},(response)=>{
       console.log("response==", response)
