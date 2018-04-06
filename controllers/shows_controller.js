@@ -3,7 +3,7 @@ const tmdb_key = process.env.TMDB_KEY
 
 module.exports = {
   searchMovies: function (req, res) {
-    let query = req.body.search
+    let query = req.params.query
 
     axios.get(`https://api.themoviedb.org/3/search/movie?api_key=${tmdb_key}&query=${query}&include_adult=false`)
     .then(function (response) {
@@ -16,7 +16,7 @@ module.exports = {
   },
 
   searchSeries: function(req, res){
-    let query = req.body.search
+    let query = req.params.query
 
     axios.get(`http://api.tvmaze.com/search/shows?q=${query}`)
     .then(function(seriesData){
@@ -29,8 +29,7 @@ module.exports = {
   },
 
   searchAnime: function(req, res){
-    let id = req.params.id
-    let search = req.body.search
+    let search = req.params.query
 
     axios.create({
         baseURL: "https://anilist.co/api",

@@ -10,10 +10,11 @@ const loginRoute = require('./routers/login.js');
 const homeRoute = require('./routers/home.js');
 const showsRoute = require('./routers/show.js');
 
+app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(morgan('dev'));
-mongoose.connect('mongodb://localhost/watchlist');
+mongoose.connect('mongodb://localhost:27017/watchlist');
 
 let db = mongoose.connection
 db.on('error', console.error.bind(console, 'connection error:'))
